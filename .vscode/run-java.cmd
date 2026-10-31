@@ -15,9 +15,9 @@ rem Workspace root = parent of the .vscode folder that holds this script
 for %%R in ("%~dp0..") do set "ROOT=%%~fR"
 set "OUT=%ROOT%\.java-out"
 
-rem Read the package name (indentation before "package" is allowed)
+rem Read the package name (indentation allowed, commented lines ignored)
 set "PKG="
-for /f "tokens=2 delims=; " %%p in ('findstr /r /c:"^[^a-zA-Z]*package " "%FILE%"') do if not defined PKG set "PKG=%%p"
+for /f "tokens=2 delims=; " %%p in ('findstr /r /c:"^[^a-zA-Z/*]*package " "%FILE%"') do if not defined PKG set "PKG=%%p"
 
 rem Wipe old output so a stale .class can never run
 if exist "%OUT%" rd /s /q "%OUT%"
